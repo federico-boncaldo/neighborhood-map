@@ -2,7 +2,6 @@
 //list of styles
 let styles = [];
 
-
 //list of places
 let places = [
       {name: 'Wicklow Mountains', location: {lat: 53.081805, lng: -6.393859}},
@@ -17,17 +16,42 @@ let places = [
  * @param data the place we want to manage
  */
 let Place = function(data) {
-	this.name = ko.observable(data.name);
+	let self = this;
+	self.name = ko.observable(data.name);
 }
 
 /**
  * 
  */
 let ViewModel = function() {
+	let self = this;
 
-	let placesList = ko.observableArray([]);
+	self.placesList = ko.observableArray([]);
+	self.markers = createMarkers();
+	
 	places.forEach(function(place) {
-		this.placeList.push(new Place(place));
-	})
+		self.placesList.push(new Place(place));
+	});
+
+	displayMarkers(self.markers, places);
+
+	self.query = ko.observable("");
+
+	self.search = function(data, event) {
+		self.placesList.removeAll();
+		hideMarkers(self.markers);
+
+		places.forEach(function(place){
+			if(place.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0){
+				self.placesList.push(place);
+			}
+		});
+
+		self.placesList.sort();
+		displayMarkers(self.markers, self.placesList());
+
+	};
 
 }
+
+ko.applyBindings(new ViewModel());
