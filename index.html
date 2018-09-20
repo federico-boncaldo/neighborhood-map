@@ -14,14 +14,17 @@
 		<div class="container">			
 			<div id="list-view">
 				<ul data-bind="foreach: placesList">
-					<li data-bind="text: name"></li>
+					<li data-bind="text: name, click: $parent.animateMarker"></li>
 				</ul>
 			</div>
 			<div id="map"></div>
 		</div>
 		<script src="js/knockout-3.4.2.js"></script>
 		<script src="js/map.js"></script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKKO5Srx3Jrmhb0AURg_d66ZyiL2VgEVA&v=3&callback=initMap"></script>
+	    <script
+	        src=
+	        "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBKKO5Srx3Jrmhb0AURg_d66ZyiL2VgEVA&v=3&callback=initMap">
+	    </script>
 		<script src="js/app.js"></script>		
 	</body>
 </html>

@@ -37,7 +37,7 @@ let ViewModel = function() {
 
 	self.query = ko.observable("");
 
-	self.search = function(data, event) {
+	self.search = function() {
 		self.placesList.removeAll();
 		hideMarkers(self.markers);
 
@@ -50,6 +50,21 @@ let ViewModel = function() {
 		self.placesList.sort();
 		displayMarkers(self.markers, self.placesList());
 
+	};
+
+	self.animateMarker = function(data, event) {
+		let found = false;
+		self.markers.forEach(function(marker){
+			marker.setIcon(makeMarkerIcon('00ffff'));
+			if(marker.title == data.name()){
+				marker.setIcon(makeMarkerIcon('f0ffff'));
+				populateInfoWindow(marker);
+				found = true;
+			}
+		});
+
+		if(!found)
+			alert("Marker not found");
 	};
 
 }
