@@ -34,15 +34,17 @@ function createMarkers(){
 
 		marker.addListener('click', function(){
 			this.setIcon(highlightedIcon);
+      this.setAnimation(google.maps.Animation.BOUNCE);
 			populateInfoWindow(this);
 		});
 
 		marker.addListener('mouseover', function(){
-			this.setIcon(highlightedIcon)
+			this.setIcon(highlightedIcon);
 		});		
 
 		marker.addListener('mouseout', function(){
-			this.setIcon(defaultIcon)
+			this.setIcon(defaultIcon);
+      this.setAnimation(null);
 		});
 
 	});
