@@ -33,17 +33,21 @@ let ViewModel = function() {
 		self.placesList.push(new Place(place));
 	});
 
-	displayMarkers(self.markers, places);
+	//display markers once they are stored in the observable array
+	displayMarkers(self.markers, self.placesList());
 
 	self.query = ko.observable("");
 
+	/**
+	 * 
+	 */
 	self.search = function() {
 		self.placesList.removeAll();
 		hideMarkers(self.markers);
 
 		places.forEach(function(place){
 			if(place.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0){
-				self.placesList.push(place);
+				self.placesList.push(new Place(place));
 			}
 		});
 
@@ -52,19 +56,27 @@ let ViewModel = function() {
 
 	};
 
+	/**
+	 * [animateMarker description]
+	 * @param  {[type]} data  [description]
+	 * @param  {[type]} event [description]
+	 * @return {[type]}       [description]
+	 */
 	self.animateMarker = function(data, event) {
 		let found = false;
 		self.markers.forEach(function(marker){
 			marker.setIcon(makeMarkerIcon('00ffff'));
+			marker.setAnimation(null);
 			if(marker.title == data.name()){
 				marker.setIcon(makeMarkerIcon('f0ffff'));
+				marker.setAnimation(google.maps.Animation.BOUNCE);
 				populateInfoWindow(marker);
 				found = true;
 			}
 		});
 
 		if(!found)
-			alert("Marker not found");
+			alert("Marker for " + data.name() + "not found");
 	};
 
 }
