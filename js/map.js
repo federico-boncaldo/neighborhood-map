@@ -77,7 +77,7 @@ function displayMarkers(markers, placesList) {
 
 	placesList.forEach(function(place){
 		markers.forEach(function(marker){
-			if(place.name == marker.title)
+			if(place.name() == marker.title)
 				marker.setMap(map);
 			// bounds.extend(marker.position);
 		});
