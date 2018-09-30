@@ -132,16 +132,56 @@ function populateInfoWindow(marker) {
               }
             };
           var panorama = new google.maps.StreetViewPanorama(
-            document.getElementById('pano'), panoramaOptions);
+            pano, panoramaOptions);
         } else {
-          infowindow.setContent('<div>' + marker.title + '</div>' +
-            '<div>No Street View Found</div>');
+          pano.innerHTML = 'No Street View Found';
+          pano.className = 'no-pano';
         }
       }
+
       // Use streetview service to get the closest streetview image within
       // 50 meters of the markers position
       streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+
       // Open the infowindow on the correct marker.
       infowindow.open(map, marker);
+
+      getWikipediaLinks(marker.title);
     }
+}
+
+/**
+ * [getWikipediaLinks description]
+ * @param  {[type]} title [description]
+ * @return {[type]}       [description]
+ */
+function getWikipediaLinks(title){
+
+  let $wikiLink = $('#wikipedia-link');
+  
+  //the search will retrieve only one article max. for each location
+  let wikipediaURL = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+ title +"&limit=1&profile=normal&format=json&callback=wikiCallBack" ;
+
+  let wikiRequestTimeout = setTimeout(function(){
+      $wikiLink.text("Failed to get wikipedia article");
+  }, 8000);
+
+  $.ajax({
+    url: wikipediaURL,
+    dataType: "jsonp",
+    success: function(response){
+      let articleList = response[1];
+      (articleList.length != 0) ? $wikiLink.append("<h4>Wikipedia article</h4>") : $wikiLink.text("Wikipedia article not present");
+
+      for(let article of articleList){
+        let url = "https://en.wikipedia.org/wiki/" + article;
+        $wikiLink.append('<li><a href="' + url + '">' +
+            article + '</a></li>');
+      }
+
+      clearTimeout(wikiRequestTimeout);
+    }
+  }).fail(function(jqXHR, textStatus){
+    $wikiLink.text("Wikipedia request failed: " + textStatus)
+  });
 }
