@@ -109,7 +109,6 @@ function populateInfoWindow(marker) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
       // Clear the infowindow content to give the streetview time to load.
-      infowindow.setContent('');
       infowindow.marker = marker;
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick', function() {
@@ -117,15 +116,21 @@ function populateInfoWindow(marker) {
       });
       var streetViewService = new google.maps.StreetViewService();
       var radius = 50;
+
+      infowindow.setContent('<h3>' + marker.title + '</h3>' + 
+      '<div id="pano"></div>' +
+      '<div id="wikipedia-link"></div>');
+
       // In case the status is OK, which means the pano was found, compute the
       // position of the streetview image, then calculate the heading, then get a
       // panorama from that and set the options
       function getStreetView(data, status) {
+        let pano = document.getElementById('pano');
         if (status == google.maps.StreetViewStatus.OK) {
           var nearStreetViewLocation = data.location.latLng;
           var heading = google.maps.geometry.spherical.computeHeading(
             nearStreetViewLocation, marker.position);
-            infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+
             var panoramaOptions = {
               position: nearStreetViewLocation,
               pov: {
