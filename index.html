@@ -7,24 +7,40 @@
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body>
-		<div id="search-bar">
-			<input type="text" data-bind="textInput: query, valueUpdate: afterkeydown, event: {'keyup': search} " placeholder="Search..." >
-			<p>Text entered: <span data-bind="text: query"></span></p>
-		</div>
+		<h1>Co. Wicklow Locations</h1>
+
 		<div class="container">			
 			<div id="list-view">
-				<ul data-bind="foreach: placesList">
-					<li data-bind="text: name, click: $parent.animateMarker"></li>
+				<div id="search-bar">
+					<input type="text" data-bind="textInput: query, valueUpdate: afterkeydown, event: {'keyup': search} " placeholder="Search location..." >
+				</div>
+				<ul>
+					<li>
+						<span>Location</span>
+						<span class="favorite">Favorite</span>
+					</li>
+					<!-- ko foreach: placesList -->	
+						<!-- ko if: display -->
+							<li>
+								<span class="location" data-bind="text: name, click: $parent.animateMarker"></span>
+								<span class="favorite">
+									<input type="checkbox" data-bind="checked: favorite" />
+								</span>
+							</li>
+						<!-- /ko -->
+				  	<!-- /ko -->
 				</ul>
 			</div>
 			<div id="map"></div>
 		</div>
+
 		<script src="js/jquery-3.3.1.min.js"></script>	
 		<script src="js/knockout-3.4.2.js"></script>
 		<script src="js/map.js"></script>
-	    <script src=
-	        "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBKKO5Srx3Jrmhb0AURg_d66ZyiL2VgEVA&v=3&callback=initMap">
+	    <script defer src=
+	        "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&v=3&callback=initMap&key=AIzaSyBKKO5Srx3Jrmhb0AURg_d66ZyiL2VgEVA" onerror="mapError()">
 	    </script>
-		<script src="js/app.js"></script>		
+		<script defer src="js/app.js"></script>
+
 	</body>
 </html>
