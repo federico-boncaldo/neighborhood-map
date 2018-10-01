@@ -14,10 +14,14 @@ let places = [
 /**
  * Model and logic of the application
  * @param data the place we want to manage
+ * @param { } [varname] [description]
+ * @param { } [varname] [description]
  */
-let Place = function(data) {
+let Place = function(name, display, favorite) {
 	let self = this;
-	self.name = ko.observable(data.name);
+	self.name = ko.observable(name);
+	self.display = ko.observable(display);
+	self.favorite = ko.observable(favorite);
 }
 
 /**
@@ -30,34 +34,36 @@ let ViewModel = function() {
 	self.markers = createMarkers();
 	
 	places.forEach(function(place) {
-		self.placesList.push(new Place(place));
+		self.placesList.push(new Place(place.name, true, false));
 	});
 
-	//display markers once they are stored in the observable array
+	self.placesList.sort();
+
+	//the array of places is passed by providing the content of placesList observable array
 	displayMarkers(self.markers, self.placesList());
 
 	self.query = ko.observable("");
-
 	/**
-	 * 
+	 * Display only the places that have the query string which matches 
+	 * part of the title or the entire title.
 	 */
 	self.search = function() {
-		self.placesList.removeAll();
 		hideMarkers(self.markers);
 
-		places.forEach(function(place){
-			if(place.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0){
-				self.placesList.push(new Place(place));
+		self.placesList().forEach(function(place){
+			place.display(false)
+			if(place.name().toLowerCase().indexOf(self.query().toLowerCase()) >= 0){
+				place.display(true);
 			}
 		});
 
-		self.placesList.sort();
 		displayMarkers(self.markers, self.placesList());
 
 	};
 
+
 	/**
-	 * [animateMarker description]
+	 * Animate the markes which is clicked
 	 * @param  {[type]} data  [description]
 	 * @param  {[type]} event [description]
 	 * @return {[type]}       [description]
