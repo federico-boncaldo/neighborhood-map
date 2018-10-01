@@ -7,32 +7,36 @@
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body>
-		<h1>Co. Wicklow Locations</h1>
-
-		<div class="container">
-			<div id="list-view">
-				<div id="search-bar">
-					<input type="text" data-bind="textInput: query, valueUpdate: afterkeydown, event: {'keyup': search} " placeholder="Search location..." >
+		<header>
+			<h1>Co. Wicklow Locations</h1>
+			<article><em>Click on one location to see its street view and one wikipedia article associated to it.</em></article>
+		</header>
+		<main>
+			<div class="container">
+				<div id="list-view">
+					<div id="search-bar">
+						<input type="text" data-bind="textInput: query, valueUpdate: afterkeydown, event: {'keyup': search} " placeholder="Search location..." >
+					</div>
+					<ul>
+						<li>
+							<span>Location</span>
+							<span class="favorite">Favorite</span>
+						</li>
+						<!-- ko foreach: placesList -->
+							<!-- ko if: display -->
+								<li>
+									<span class="location" data-bind="text: name, click: $parent.animateMarker"></span>
+									<span class="favorite">
+										<input type="checkbox" data-bind="checked: favorite" />
+									</span>
+								</li>
+							<!-- /ko -->
+					  	<!-- /ko -->
+					</ul>
 				</div>
-				<ul>
-					<li>
-						<span>Location</span>
-						<span class="favorite">Favorite</span>
-					</li>
-					<!-- ko foreach: placesList -->
-						<!-- ko if: display -->
-							<li>
-								<span class="location" data-bind="text: name, click: $parent.animateMarker"></span>
-								<span class="favorite">
-									<input type="checkbox" data-bind="checked: favorite" />
-								</span>
-							</li>
-						<!-- /ko -->
-				  	<!-- /ko -->
-				</ul>
+				<div id="map"></div>
 			</div>
-			<div id="map"></div>
-		</div>
+		</main>
 
 		<script src="js/jquery-3.3.1.min.js"></script>
 		<script src="js/knockout-3.4.2.js"></script>
