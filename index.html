@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width initial-scale=1">
@@ -9,7 +9,7 @@
 	<body>
 		<h1>Co. Wicklow Locations</h1>
 
-		<div class="container">			
+		<div class="container">
 			<div id="list-view">
 				<div id="search-bar">
 					<input type="text" data-bind="textInput: query, valueUpdate: afterkeydown, event: {'keyup': search} " placeholder="Search location..." >
@@ -19,7 +19,7 @@
 						<span>Location</span>
 						<span class="favorite">Favorite</span>
 					</li>
-					<!-- ko foreach: placesList -->	
+					<!-- ko foreach: placesList -->
 						<!-- ko if: display -->
 							<li>
 								<span class="location" data-bind="text: name, click: $parent.animateMarker"></span>
@@ -34,7 +34,7 @@
 			<div id="map"></div>
 		</div>
 
-		<script src="js/jquery-3.3.1.min.js"></script>	
+		<script src="js/jquery-3.3.1.min.js"></script>
 		<script src="js/knockout-3.4.2.js"></script>
 		<script src="js/map.js"></script>
 	    <script defer src=
