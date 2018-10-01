@@ -7,9 +7,16 @@ function initMap() {
 	infowindow = new google.maps.InfoWindow();
 	
 	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 53.145472, lng: -6.064194 },
-		zoom: 11
+		center: {lat: 53.085444, lng: -6.219073 },
+		zoom: 9.5
 	});
+}
+
+function mapError() {
+  //add a class to the map div in order display a different message and style the page differently
+  let mapDiv = document.getElementById('map');
+  mapDiv.className = "no-map";
+  mapDiv.innerHTML = "There was a problem while downloading the map.<br> We're sorry for the inconvenience.";
 }
 
 /**
@@ -79,7 +86,10 @@ function displayMarkers(markers, placesList) {
 
 	placesList.forEach(function(place){
 		markers.forEach(function(marker){
-			if(place.name() == marker.title)
+			if(
+          place.name() == marker.title && 
+          place.display()
+        )
 				marker.setMap(map);
 			// bounds.extend(marker.position);
 		});
@@ -189,6 +199,7 @@ function getWikipediaLinks(title){
       clearTimeout(wikiRequestTimeout);
     }
   }).fail(function(jqXHR, textStatus){
-    $wikiLink.text("Wikipedia request failed: " + textStatus)
+    $wikiLink.text("Wikipedia request failed: " + textStatus + " " + jqXHR.status );
+    console.log(jqXHR);
   });
 }
