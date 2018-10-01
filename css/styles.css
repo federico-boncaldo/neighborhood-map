@@ -1,3 +1,17 @@
+html, body, main {
+	height: 100%;
+	margin: 0;
+	padding: 0px;
+}
+
+body {
+	padding: 10px;
+}
+
+header {
+	margin-bottom: 10px;
+}
+
 .container {
 	grid-template-columns: 1fr;
 	height: 100%;
@@ -25,16 +39,6 @@
 	text-align: center;
 	height: auto;
 	font-size: 30px;
-}
-
-html, body {
-	height: 100%;
-	margin: 0;
-	padding: 0px;
-}
-
-body {
-	padding: 10px;
 }
 
 #list-view ul {
